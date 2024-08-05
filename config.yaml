@@ -17,3 +17,9 @@ watches:
     osRepo: registry.suse.com/suse/sl-micro/6.0/base-os-container
     isoRepo: registry.suse.com/suse/sl-micro/6.0/base-iso-image
     limit: 3
+  - flavor: "rt"
+    fileName: "sl-micro-60-rt"
+    displayName: "SL Micro RT 6.0"
+    osRepo: registry.suse.com/suse/sl-micro/6.0/rt-os-container
+    isoRepo: registry.suse.com/suse/sl-micro/6.0/rt-iso-image
+    limit: 3
