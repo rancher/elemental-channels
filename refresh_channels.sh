@@ -21,6 +21,7 @@ function append_os_entry() {
     local version=$3
     local image_uri=$4
     local display_name=$5
+    local architectures=$6
     cat >> "$file" << EOF
     {
         "metadata": {
@@ -31,7 +32,8 @@ function append_os_entry() {
             "type": "container",
             "metadata": {
                 "upgradeImage": "$image_uri",
-                "displayName": "$display_name OS"
+                "displayName": "$display_name OS",
+                "architectures": $architectures
             }
         }
     },
@@ -45,6 +47,7 @@ function append_iso_entry() {
     local version=$3
     local image_uri=$4
     local display_name=$5
+    local architectures=$6
     cat >> "$file" << EOF
     {
         "metadata": {
@@ -55,7 +58,8 @@ function append_iso_entry() {
             "type": "iso",
             "metadata": {
                 "uri": "$image_uri",
-                "displayName": "$display_name ISO"
+                "displayName": "$display_name ISO",
+                "architectures": $architectures
             }
         }
     },
@@ -84,11 +88,12 @@ function process_intermediate_list() {
         local version=$(echo "$entry" | jq '.version' | sed 's/"//g')
         local managed_os_version_name=$(echo "$entry" | jq '.managedOSVersionName' | sed 's/"//g')
         local display_name=$(echo "$entry" | jq '.displayName' | sed 's/"//g')
+        local architectures=$(echo "$entry" | jq -c '[.architectures[]]')
 
         if [[ "$type" == "os" ]]; then
-            append_os_entry "$file" "$managed_os_version_name" "$version" "$image_uri" "$display_name"
+            append_os_entry "$file" "$managed_os_version_name" "$version" "$image_uri" "$display_name" "$architectures"
         elif [[ "$type" == "iso" ]]; then
-            append_iso_entry "$file" "$managed_os_version_name" "$version" "$image_uri" "$display_name"
+            append_iso_entry "$file" "$managed_os_version_name" "$version" "$image_uri" "$display_name" "$architectures"
         fi
     done
 }
@@ -121,9 +126,15 @@ function process_repo() {
         fi
         local image_uri="$repo:$tag"
         local image_creation_date=($(skopeo inspect docker://$image_uri | jq '.Created' | sed 's/"//g'))
+        local raw_inspect_output=$(skopeo inspect --raw docker://$image_uri)
+        # If there is no list of architectures, assume only the one that runs this script is available.
+        local architectures="[\"amd64\"]"
+        if echo "$raw_inspect_output" | jq '.manifests | length > 0' | grep "true"; then
+            architectures=$(echo "$raw_inspect_output" | jq -c '[.manifests[].platform.architecture]')
+        fi
         local managed_os_version_name=$(format_managed_os_version_name "$flavor" "$tag" "$repo_type")
         # Append entry to intermediate list
-        local intermediate_entry="{\"uri\":\"$image_uri\",\"created\":\"$image_creation_date\",\"version\":\"$tag\",\"managedOSVersionName\":\"$managed_os_version_name\",\"displayName\":\"$display_name\"}"
+        local intermediate_entry="{\"uri\":\"$image_uri\",\"created\":\"$image_creation_date\",\"version\":\"$tag\",\"managedOSVersionName\":\"$managed_os_version_name\",\"displayName\":\"$display_name\",\"architectures\":$architectures}"
         echo "Intermediate: $intermediate_entry"
         local intermediate_list=("${intermediate_list[@]}" "$intermediate_entry")
     done
