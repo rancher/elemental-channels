@@ -9,7 +9,7 @@
             "metadata": {
                 "upgradeImage": "registry.suse.com/suse/sl-micro/6.0/kvm-os-container:2.1.1-3.34",
                 "displayName": "SL Micro KVM 6.0 OS",
-                "architectures": ["x86_64","aarch64"]
+                "platforms": ["linux/x86_64","linux/aarch64"]
             }
         }
     },
@@ -23,7 +23,7 @@
             "metadata": {
                 "uri": "registry.suse.com/suse/sl-micro/6.0/kvm-iso-image:2.1.1-3.46",
                 "displayName": "SL Micro KVM 6.0 ISO",
-                "architectures": ["x86_64","aarch64"]
+                "platforms": ["linux/x86_64","linux/aarch64"]
             }
         }
     }
