@@ -129,7 +129,7 @@ function process_repo() {
         local raw_inspect_output=$(skopeo inspect --raw docker://$image_uri)
         # If there is no list of platforms, assume only the one that runs this script is available.
         local platforms="[\"amd64\"]"
-        if echo "$raw_inspect_output" | jq '.manifests | length > 0' | grep "true"; then
+        if echo "$raw_inspect_output" | jq '.manifests | length > 0' | grep "true" > /dev/null; then
             platforms=$(echo "$raw_inspect_output" | jq -c '[.manifests[].platform.architecture]')
         fi
         platforms="${platforms/amd64/linux\/x86_64}"
