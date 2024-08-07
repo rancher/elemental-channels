@@ -132,6 +132,8 @@ function process_repo() {
         if echo "$raw_inspect_output" | jq '.manifests | length > 0' | grep "true"; then
             architectures=$(echo "$raw_inspect_output" | jq -c '[.manifests[].platform.architecture]')
         fi
+        architectures="${architectures/amd64/x86_64}"
+        architectures="${architectures/arm64/aarch64}"
         local managed_os_version_name=$(format_managed_os_version_name "$flavor" "$tag" "$repo_type")
         # Append entry to intermediate list
         local intermediate_entry="{\"uri\":\"$image_uri\",\"created\":\"$image_creation_date\",\"version\":\"$tag\",\"managedOSVersionName\":\"$managed_os_version_name\",\"displayName\":\"$display_name\",\"architectures\":$architectures}"
