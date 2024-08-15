@@ -15,6 +15,34 @@
     },
     {
         "metadata": {
+            "name": "baremetal-v2.1.2-3.32-os"
+        },
+        "spec": {
+            "version": "v2.1.2-3.32",
+            "type": "container",
+            "metadata": {
+                "upgradeImage": "registry.suse.com/suse/sl-micro/6.0/baremetal-os-container:2.1.2-3.32",
+                "displayName": "SL Micro 6.0 OS",
+                "platforms": ["linux/x86_64","linux/aarch64"]
+            }
+        }
+    },
+    {
+        "metadata": {
+            "name": "baremetal-v2.1.1-3.39-iso"
+        },
+        "spec": {
+            "version": "v2.1.1-3.39",
+            "type": "iso",
+            "metadata": {
+                "uri": "registry.suse.com/suse/sl-micro/6.0/baremetal-iso-image:2.1.1-3.39",
+                "displayName": "SL Micro 6.0 ISO",
+                "platforms": ["linux/x86_64","linux/aarch64"]
+            }
+        }
+    },
+    {
+        "metadata": {
             "name": "baremetal-v2.1.1-3.36-iso"
         },
         "spec": {
