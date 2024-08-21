@@ -15,6 +15,20 @@
     },
     {
         "metadata": {
+            "name": "baremetal-v2.1.2-3.34-os"
+        },
+        "spec": {
+            "version": "v2.1.2-3.34",
+            "type": "container",
+            "metadata": {
+                "upgradeImage": "registry.suse.com/suse/sl-micro/6.0/baremetal-os-container:2.1.2-3.34",
+                "displayName": "SL Micro 6.0 OS",
+                "platforms": ["linux/x86_64","linux/aarch64"]
+            }
+        }
+    },
+    {
+        "metadata": {
             "name": "baremetal-v2.1.2-3.32-os"
         },
         "spec": {
