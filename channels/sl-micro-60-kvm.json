@@ -15,6 +15,20 @@
     },
     {
         "metadata": {
+            "name": "kvm-v2.1.2-3.40-os"
+        },
+        "spec": {
+            "version": "v2.1.2-3.40",
+            "type": "container",
+            "metadata": {
+                "upgradeImage": "registry.suse.com/suse/sl-micro/6.0/kvm-os-container:2.1.2-3.40",
+                "displayName": "SL Micro KVM 6.0 OS",
+                "platforms": ["linux/x86_64","linux/aarch64"]
+            }
+        }
+    },
+    {
+        "metadata": {
             "name": "kvm-v2.1.2-3.39-os"
         },
         "spec": {
