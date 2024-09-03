@@ -4,6 +4,9 @@ on:
   schedule:
     - cron: '0 0 * * *'
 
+env:
+  REFRESH_BRANCH: gha-automated-refresh
+
 jobs:
   refresh-channels:
     runs-on: ubuntu-latest
@@ -15,14 +18,13 @@ jobs:
           fetch-depth: 0
       - name: Run refresh script
         run: ./refresh_channels.sh
-      - name: Open a new PR
+      - name: Open or refresh PR
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.email "do-not-use@elemental.suse.com"
           git config --global user.name "GitHub Action Runner"
-          branch_name="gha-refresh-${{ github.run_id }}-${{ github.run_number}}-${{ github.run_attempt }}"
-          git switch --force-create "${branch_name}" origin/main
+          git switch --force-create "${{ env.REFRESH_BRANCH }}" origin/main
           git add .
           
           if git diff-index --quiet HEAD; then
@@ -30,6 +32,7 @@ jobs:
             exit 0
           fi
           
-          git commit -m "Automatic update. Run ID ${{ github.run_id }}, Number ${{ github.run_number}}, Attempt ${{ github.run_attempt }}" 
-          git push --force origin "${branch_name}"
-          gh pr create --fill --head "${branch_name}"
+          message="Automatic update. Run ID ${{ github.run_id }}, Number ${{ github.run_number}}, Attempt ${{ github.run_attempt }}"
+          git commit -m "${message}" 
+          git push --force origin "${{ env.REFRESH_BRANCH }}"
+          gh pr create --fill --head "${{ env.REFRESH_BRANCH }}" || gh pr edit --title "${message}"
