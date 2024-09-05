@@ -35,4 +35,4 @@ jobs:
           message="Automatic update. Run ID ${{ github.run_id }}, Number ${{ github.run_number}}, Attempt ${{ github.run_attempt }}"
           git commit -m "${message}" 
           git push --force origin "${{ env.REFRESH_BRANCH }}"
-          gh pr create --fill --head "${{ env.REFRESH_BRANCH }}" || gh pr edit --title "${message}"
+          gh pr create --fill --head "${{ env.REFRESH_BRANCH }}" || gh pr edit --base "${{ env.REFRESH_BRANCH }}" --title "${message}"
