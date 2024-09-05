@@ -35,4 +35,11 @@ jobs:
           message="Automatic update. Run ID ${{ github.run_id }}, Number ${{ github.run_number}}, Attempt ${{ github.run_attempt }}"
           git commit -m "${message}" 
           git push --force origin "${{ env.REFRESH_BRANCH }}"
-          gh pr create --fill --head "${{ env.REFRESH_BRANCH }}" || gh pr edit --base "${{ env.REFRESH_BRANCH }}" --title "${message}"
+
+          PR_URL="$(gh pr list --head "${{ env.REFRESH_BRANCH }}" --state open --json url --jq .[].url)"
+          if [[ -n "${PR_URL}" ]]; then
+              echo "PR already exists -> ${PR_URL}"
+              gh pr edit "${PR_URL}" --title "${message}"
+          else
+              gh pr create --fill --head "${{ env.REFRESH_BRANCH }}"
+          fi
