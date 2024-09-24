@@ -109,19 +109,26 @@ function process_repo() {
 
     local intermediate_list=()
     local tags=($(skopeo list-tags docker://$repo | jq '.Tags[]' | grep -v '.att\|.sig\|latest' | sed 's/"//g'))
+    local processing_version=""
     
     echo "Processing repository: $repo"
 
     for tag in "${tags[@]}"; do
         # Version (non-build) tag (ex '1.2.3')
         if [[ $tag =~ ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$ ]]; then
+            # Check on minor version (ex '1.2')
+            local minor_version="${tag:0:3}"
+            # If we are still at the same minor version, continue collecting intermediates.
+            if [[ "$minor_version" == "$processing_version" ]]; then
+                continue
+            fi
             # If the intermediate_list is not empty, 
             # it means we are done processing the previously met version tag.
             if [[ -n $intermediate_list ]]; then
                 process_intermediate_list "$processing_version" "$file" "$repo_type" $limit "${intermediate_list[@]}"
                 local intermediate_list=()
             fi
-            local processing_version="$tag"
+            processing_version="$minor_version"
             continue
         fi
         local image_uri="$repo:$tag"
