@@ -1,0 +1,30 @@
+[
+    {
+        "metadata": {
+            "name": "base-v2.1.1-3.18-os"
+        },
+        "spec": {
+            "version": "v2.1.1-3.18",
+            "type": "container",
+            "metadata": {
+                "upgradeImage": "registry.suse.com/suse/sl-micro/6.1/base-os-container:2.1.1-3.18",
+                "displayName": "SL Micro Base 6.1 OS",
+                "platforms": ["linux/x86_64","linux/aarch64"]
+            }
+        }
+    },
+    {
+        "metadata": {
+            "name": "base-v2.1.1-2.47-iso"
+        },
+        "spec": {
+            "version": "v2.1.1-2.47",
+            "type": "iso",
+            "metadata": {
+                "uri": "registry.suse.com/suse/sl-micro/6.1/base-iso-image:2.1.1-2.47",
+                "displayName": "SL Micro Base 6.1 ISO",
+                "platforms": ["linux/x86_64","linux/aarch64"]
+            }
+        }
+    }
+]
