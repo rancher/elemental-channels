@@ -1,30 +1,56 @@
 name: Refresh Channels
 on:
   workflow_dispatch:
+    inputs:
+      target_branch:
+        description: 'Target branch to update channels'
+        required: true
+        type: choice
+        options:
+        - 'main'
+        - 'v1.6'
   schedule:
     - cron: '0 0 * * *'
 
-env:
-  REFRESH_BRANCH: gha-automated-refresh
-
 jobs:
-  refresh-channels:
+  set-matrix:
     runs-on: ubuntu-latest
+    outputs:
+      branches: ${{ steps.branches.outputs.branches }}
+    steps:
+    - name: Sets the branches to update
+      id: branches
+      run: |
+        if [ "${{ github.event_name }}" == 'worflow_dispatch' ]; then
+          echo "branches=['main', 'v1.6']" >> $GITHUB_OUTPUT
+        else
+          echo "branches=['${{ inputs.target_branch }}']" >> $GITHUB_OUTPUT
+        fi
+
+  refresh-channels:
+    needs:
+    - set-matrix
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        branch: ${{ fromJSON(needs.set-matrix.outputs.branches) }}
+      fail-fast: false
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          ref: 'main'
+          ref: ${{ matrix.branch }}
           fetch-depth: 0
       - name: Run refresh script
         run: ./refresh_channels.sh
       - name: Open or refresh PR
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REFRESH_BRANCH: gha-automated-refresh-${{ matrix.branch }}
         run: |
           git config --global user.email "do-not-use@elemental.suse.com"
           git config --global user.name "GitHub Action Runner"
-          git switch --force-create "${{ env.REFRESH_BRANCH }}" origin/main
+          git switch --force-create "${{ env.REFRESH_BRANCH }}" origin/${{ matrix.branch }}
           git add .
           
           if git diff-index --quiet HEAD; then

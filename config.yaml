@@ -1,25 +1,25 @@
 watches: 
   - flavor: "baremetal"
-    fileName: "sl-micro-60-baremetal"
-    displayName: "SL Micro 6.0"
-    osRepo: registry.suse.com/suse/sl-micro/6.0/baremetal-os-container
-    isoRepo: registry.suse.com/suse/sl-micro/6.0/baremetal-iso-image
-    limit: 3
+    fileName: "sl-micro-61-baremetal"
+    displayName: "SL Micro 6.1"
+    osRepo: registry.suse.com/suse/sl-micro/6.1/baremetal-os-container
+    isoRepo: registry.suse.com/suse/sl-micro/6.1/baremetal-iso-image
+    limit: 1
   - flavor: "kvm"
-    fileName: "sl-micro-60-kvm"
-    displayName: "SL Micro KVM 6.0"
-    osRepo: registry.suse.com/suse/sl-micro/6.0/kvm-os-container
-    isoRepo: registry.suse.com/suse/sl-micro/6.0/kvm-iso-image
-    limit: 3
+    fileName: "sl-micro-61-kvm"
+    displayName: "SL Micro KVM 6.1"
+    osRepo: registry.suse.com/suse/sl-micro/6.1/kvm-os-container
+    isoRepo: registry.suse.com/suse/sl-micro/6.1/kvm-iso-image
+    limit: 1
   - flavor: "base"
-    fileName: "sl-micro-60-base"
-    displayName: "SL Micro Base 6.0"
-    osRepo: registry.suse.com/suse/sl-micro/6.0/base-os-container
-    isoRepo: registry.suse.com/suse/sl-micro/6.0/base-iso-image
-    limit: 3
+    fileName: "sl-micro-61-base"
+    displayName: "SL Micro Base 6.1"
+    osRepo: registry.suse.com/suse/sl-micro/6.1/base-os-container
+    isoRepo: registry.suse.com/suse/sl-micro/6.1/base-iso-image
+    limit: 1
   - flavor: "rt"
-    fileName: "sl-micro-60-rt"
-    displayName: "SL Micro RT 6.0"
-    osRepo: registry.suse.com/suse/sl-micro/6.0/rt-os-container
-    isoRepo: registry.suse.com/suse/sl-micro/6.0/rt-iso-image
-    limit: 3
+    fileName: "sl-micro-61-rt"
+    displayName: "SL Micro RT 6.1"
+    osRepo: registry.suse.com/suse/sl-micro/6.1/rt-os-container
+    isoRepo: registry.suse.com/suse/sl-micro/6.1/rt-iso-image
+    limit: 1
