@@ -15,20 +15,6 @@
     },
     {
         "metadata": {
-            "name": "rt-v2.1.2-2.26-iso"
-        },
-        "spec": {
-            "version": "v2.1.2-2.26",
-            "type": "iso",
-            "metadata": {
-                "uri": "registry.suse.com/suse/sl-micro/6.1/rt-iso-image:2.1.2-2.26",
-                "displayName": "SL Micro RT 6.1 ISO",
-                "platforms": ["linux/x86_64"]
-            }
-        }
-    },
-    {
-        "metadata": {
             "name": "rt-v2.2.0-3.7-iso"
         },
         "spec": {
