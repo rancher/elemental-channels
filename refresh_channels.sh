@@ -2,6 +2,41 @@
 
 set -e
 
+# Lists all tags available in a repository
+function list_tags() {
+   local repo=$1
+
+   skopeo list-tags "docker://${repo}" | jq -r '.Tags[]'
+}
+
+# Lists all minor versions available in repository
+function list_minor_versions() {
+    local repo=$1
+
+    list_tags "${repo}" | grep -oE "^[0-9]+\.[0-9]+" | sort -rV | uniq
+}
+
+# Lists all versions available in repo matching a minor version
+function list_versions_matching_minor() {
+    local repo=$1
+    local minor=$2
+
+    # Assumes the pattern of MAJOR.MINOR.PATCH-X.Y, where X and Y are the commit count and build count in OBS
+    list_tags "${repo}" | grep -E "^[0-9]+\.[0-9]+\.[0-9]+-[0-9]+\.[0-9]+" | grep -E "^${minor}" | sort -rV | uniq
+}
+
+# is_higher_version returns 0 if version A i higher than version B, returns 1 otherwise
+function is_higher_version() {
+    local versionA=$1
+    local versionB=$2
+
+    # Note sort -V is a natural numbering sort, not semver.
+    # So semver pre-releses should NOT be compared with this method
+    higher_ver=$(printf '%s\n' "${versionA}" "${versionB}" | sort -rV | head -n1)
+    [ "${higher_ver}" == "${versionA}" ] && return 0
+    return 1
+} 
+
 # Prefixes the ManagedOSVersion name with flavor value, if any
 function format_managed_os_version_name() {
     local flavor=$1
@@ -66,7 +101,7 @@ function append_iso_entry() {
 EOF
 }
 
-# Processes the intermediate image list sorting by creation date
+# Processes the intermediate image list
 function process_intermediate_list() {
     local version=$1
     local file=$2
@@ -74,20 +109,11 @@ function process_intermediate_list() {
     local limit=$4
     shift 4
 
-    local IFS=$'\n'
-    local sorted_list=($(echo "$@" | jq -nc '[inputs]' | jq '. |= sort_by(.created) | reverse' | jq -c '.[]'))
-
-    echo "Limiting $limit entries for version $version:"
-
-    for ((i = 0; i < ${#sorted_list[@]} && i < $limit; i++)); do
-        local entry="${sorted_list[$i]}"
-        
-        echo -e "- $(( i + 1 )): $entry"
-
-        local image_uri=$(echo "$entry" | jq '.uri' | sed 's/"//g')
-        local version=$(echo "$entry" | jq '.version' | sed 's/"//g')
-        local managed_os_version_name=$(echo "$entry" | jq '.managedOSVersionName' | sed 's/"//g')
-        local display_name=$(echo "$entry" | jq '.displayName' | sed 's/"//g')
+    for entry in "$@"; do
+        local image_uri=$(echo "$entry" | jq -r '.uri')
+        local version=$(echo "$entry" | jq -r '.version')
+        local managed_os_version_name=$(echo "$entry" | jq -r '.managedOSVersionName')
+        local display_name=$(echo "$entry" | jq -r '.displayName')
         local platforms=$(echo "$entry" | jq -c '[.platforms[]]')
 
         if [[ "$type" == "os" ]]; then
@@ -98,7 +124,7 @@ function process_intermediate_list() {
     done
 }
 
-# Processes an entire repository and creates a list of all images
+# Processes an entire repository and creates a list of images
 function process_repo() {
     local repo=$1
     local repo_type=$2
@@ -106,52 +132,42 @@ function process_repo() {
     local limit=$4
     local flavor=$5
     local display_name=$6
+    local min_version=$7
 
-    local intermediate_list=()
-    local tags=($(skopeo list-tags docker://$repo | jq '.Tags[]' | grep -v '.att\|.sig\|latest' | sed 's/"//g'))
-    local processing_version=""
-    
-    echo "Processing repository: $repo"
+    for minor_version in $(list_minor_versions "${repo}"); do
+        local intermediate_list=()
+        local img_count=0
+        for version in $(list_versions_matching_minor "${repo}" "${minor_version}"); do
+	    # Ingore from this version and on, does not match the minimum criteria
+            is_higher_version "${min_version}" "${version}" && break
 
-    for tag in "${tags[@]}"; do
-        # Version (non-build) tag (ex '1.2.3')
-        if [[ $tag =~ ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$ ]]; then
-            # Check on minor version (ex '1.2')
-            local minor_version="${tag:0:3}"
-            # If we are still at the same minor version, continue collecting intermediates.
-            if [[ "$minor_version" == "$processing_version" ]]; then
-                continue
+	    # Limit the mount of images listed
+	    [ "${img_count}" -ge "${limit}" ] && break
+
+	    local image_uri="${repo}:${version}"
+            local image_creation_date=($(skopeo inspect docker://$image_uri | jq '.Created' | sed 's/"//g'))
+	    local raw_inspect_output=$(skopeo inspect --raw "docker://${image_uri}")
+            # If there is no list of platforms, assume only the one that runs this script is available.
+            local platforms="[\"amd64\"]"
+            if echo "$raw_inspect_output" | jq '.manifests | length > 0' | grep "true" > /dev/null; then
+                platforms=$(echo "$raw_inspect_output" | jq -c '[.manifests[].platform.architecture]')
             fi
-            # If the intermediate_list is not empty, 
-            # it means we are done processing the previously met version tag.
-            if [[ -n $intermediate_list ]]; then
-                process_intermediate_list "$processing_version" "$file" "$repo_type" $limit "${intermediate_list[@]}"
-                local intermediate_list=()
-            fi
-            processing_version="$minor_version"
-            continue
+            platforms="${platforms/amd64/linux\/x86_64}"
+            platforms="${platforms/arm64/linux\/aarch64}"
+            local managed_os_version_name=$(format_managed_os_version_name "$flavor" "$version" "$repo_type")
+            # Append entry to intermediate list
+            local intermediate_entry="{\"uri\":\"$image_uri\",\"created\":\"$image_creation_date\",\"version\":\"$version\",\"managedOSVersionName\":\"$managed_os_version_name\",\"displayName\":\"$display_name\",\"platforms\":$platforms}"
+            echo "Intermediate: $intermediate_entry"
+            local intermediate_list=("${intermediate_list[@]}" "$intermediate_entry")
+
+            img_count=$((img_count + 1))
+        done
+        if [[ -n $intermediate_list ]]; then
+            process_intermediate_list "${minor_version}" "$file" "$repo_type" $limit "${intermediate_list[@]}"
         fi
-        local image_uri="$repo:$tag"
-        local image_creation_date=($(skopeo inspect docker://$image_uri | jq '.Created' | sed 's/"//g'))
-        local raw_inspect_output=$(skopeo inspect --raw docker://$image_uri)
-        # If there is no list of platforms, assume only the one that runs this script is available.
-        local platforms="[\"amd64\"]"
-        if echo "$raw_inspect_output" | jq '.manifests | length > 0' | grep "true" > /dev/null; then
-            platforms=$(echo "$raw_inspect_output" | jq -c '[.manifests[].platform.architecture]')
-        fi
-        platforms="${platforms/amd64/linux\/x86_64}"
-        platforms="${platforms/arm64/linux\/aarch64}"
-        local managed_os_version_name=$(format_managed_os_version_name "$flavor" "$tag" "$repo_type")
-        # Append entry to intermediate list
-        local intermediate_entry="{\"uri\":\"$image_uri\",\"created\":\"$image_creation_date\",\"version\":\"$tag\",\"managedOSVersionName\":\"$managed_os_version_name\",\"displayName\":\"$display_name\",\"platforms\":$platforms}"
-        echo "Intermediate: $intermediate_entry"
-        local intermediate_list=("${intermediate_list[@]}" "$intermediate_entry")
     done
-    # Process the intermediate_list again for the last remaining version
-    if [[ -n $intermediate_list ]]; then
-        process_intermediate_list "$processing_version" "$file" "$repo_type" $limit "${intermediate_list[@]}"
-    fi
 }
+
 
 # The list of repositories to watch
 watches=$(yq e -o=j -I=0 '.watches[]' config.yaml)
@@ -165,6 +181,8 @@ while IFS=\= read watch; do
     os_repo=$(echo "$watch" | yq e '.osRepo')
     iso_repo=$(echo "$watch" | yq e '.isoRepo')
     limit=$(echo "$watch" | yq e '.limit')
+    # Allow all versions if min_version is not set
+    min_version=$(echo "$watch" | yq e -e '.minVersion' 2> /dev/null) || min_version="0.0.0"
 
     # Start writing the channel file by opening a JSON array
     file="channels/$file_name.json"
@@ -172,11 +190,11 @@ while IFS=\= read watch; do
     echo "[" > $file
 
     # Process OS container tags
-    process_repo "$os_repo" "os" "$file" "$limit" "$flavor" "$display_name"
+    process_repo "$os_repo" "os" "$file" "$limit" "$flavor" "$display_name" "${min_version}"
 
     # Process ISO container tags (if applicable)
     if [ "$iso_repo" != "N/A" ]; then
-        process_repo "$iso_repo" "iso" "$file" "$limit" "$flavor" "$display_name"
+        process_repo "$iso_repo" "iso" "$file" "$limit" "$flavor" "$display_name" "${min_version}"
     fi
 
     # Delete trailing ',' from array. (technically last written char on the file)
