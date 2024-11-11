@@ -138,7 +138,7 @@ function process_repo() {
         local intermediate_list=()
         local img_count=0
         for version in $(list_versions_matching_minor "${repo}" "${minor_version}"); do
-	    # Ingore from this version and on, does not match the minimum criteria
+	    # Ignore from this version and on, does not match the minimum criteria
             is_higher_version "${min_version}" "${version}" && break
 
 	    # Limit the mount of images listed
