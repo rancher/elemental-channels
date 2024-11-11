@@ -15,20 +15,6 @@
     },
     {
         "metadata": {
-            "name": "kvm-v2.1.2-2.25-iso"
-        },
-        "spec": {
-            "version": "v2.1.2-2.25",
-            "type": "iso",
-            "metadata": {
-                "uri": "registry.suse.com/suse/sl-micro/6.1/kvm-iso-image:2.1.2-2.25",
-                "displayName": "SL Micro KVM 6.1 ISO",
-                "platforms": ["linux/x86_64","linux/aarch64"]
-            }
-        }
-    },
-    {
-        "metadata": {
             "name": "kvm-v2.2.0-3.9-iso"
         },
         "spec": {
