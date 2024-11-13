@@ -1,7 +1,7 @@
 watches: 
   - flavor: "baremetal"
     fileName: "sl-micro-61-baremetal"
-    displayName: "SL Micro 6.1"
+    displayName: "SL Micro Baremetal 6.1"
     osRepo: registry.suse.com/suse/sl-micro/6.1/baremetal-os-container
     isoRepo: registry.suse.com/suse/sl-micro/6.1/baremetal-iso-image
     limit: 1
