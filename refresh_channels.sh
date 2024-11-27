@@ -57,6 +57,7 @@ function append_os_entry() {
     local image_uri=$4
     local display_name=$5
     local platforms=$6
+    local creation_date_epoch=$7
     cat >> "$file" << EOF
     {
         "metadata": {
@@ -68,7 +69,8 @@ function append_os_entry() {
             "metadata": {
                 "upgradeImage": "$image_uri",
                 "displayName": "$display_name OS",
-                "platforms": $platforms
+                "platforms": $platforms,
+                "created": $creation_date_epoch
             }
         }
     },
@@ -83,6 +85,7 @@ function append_iso_entry() {
     local image_uri=$4
     local display_name=$5
     local platforms=$6
+    local creation_date_epoch=$7
     cat >> "$file" << EOF
     {
         "metadata": {
@@ -94,7 +97,8 @@ function append_iso_entry() {
             "metadata": {
                 "uri": "$image_uri",
                 "displayName": "$display_name ISO",
-                "platforms": $platforms
+                "platforms": $platforms,
+                "created": $creation_date_epoch
             }
         }
     },
@@ -115,11 +119,14 @@ function process_intermediate_list() {
         local managed_os_version_name=$(echo "$entry" | jq -r '.managedOSVersionName')
         local display_name=$(echo "$entry" | jq -r '.displayName')
         local platforms=$(echo "$entry" | jq -c '[.platforms[]]')
+        local creation_date=$(echo "$entry" | jq -r '.created')
+
+        local creation_date_epoch=$(date -d "$creation_date" +"%s")
 
         if [[ "$type" == "os" ]]; then
-            append_os_entry "$file" "$managed_os_version_name" "$version" "$image_uri" "$display_name" "$platforms"
+            append_os_entry "$file" "$managed_os_version_name" "$version" "$image_uri" "$display_name" "$platforms" "$creation_date_epoch"
         elif [[ "$type" == "iso" ]]; then
-            append_iso_entry "$file" "$managed_os_version_name" "$version" "$image_uri" "$display_name" "$platforms"
+            append_iso_entry "$file" "$managed_os_version_name" "$version" "$image_uri" "$display_name" "$platforms" "$creation_date_epoch"
         fi
     done
 }
