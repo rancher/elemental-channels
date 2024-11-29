@@ -220,7 +220,8 @@ while IFS=\= read watch; do
 
     # Create tarball for packages list of ech image in the channel
     while IFS= read -r -d '' pkgs_file; do
-        tar rf "channels/${file_name}.packages.tar" "${pkgs_file}"
+        tar --mtime="@0" --owner=0 --group=0 --pax-option=exthdr.name=%d/PaxHeaders/%f,delete=atime,delete=ctime \
+            rf "channels/${file_name}.packages.tar" "${pkgs_file}"
         rm "${pkgs_file}"
     done < <(find channels/ -mindepth 1 -maxdepth 1 -type f -name "*.packages" -print0)
 done <<END
