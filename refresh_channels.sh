@@ -218,7 +218,7 @@ while IFS=\= read watch; do
     # Validate the JSON file
     cat $file | jq empty
 
-    # Create tarball for packages list of ech image in the channel
+    # Create tarball for packages list of each image in the channel
     rm -f "channels/${file_name}.packages.tar"
     while IFS= read -r -d '' pkgs_file; do
         tar --mtime="@0" --owner=0 --group=0 --pax-option=exthdr.name=%d/PaxHeaders/%f,delete=atime,delete=ctime \
