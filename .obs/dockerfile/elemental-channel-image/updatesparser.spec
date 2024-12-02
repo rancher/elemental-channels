@@ -21,7 +21,7 @@ Release:        0
 Summary:        A simple parser for updateinfo XML files
 License:        Apache-2.0
 Group:          System/Management
-Url:            https://github.com/rancher/elemental-toolkit
+Url:            https://github.com/rancher/elemental-channels
 Source:         %{name}.tar.xz
 
 BuildRequires:  golang(API) >= 1.22
