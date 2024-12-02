@@ -1,5 +1,5 @@
 #
-# spec file for package elemental-toolkit
+# spec file for package updatesparser
 #
 # Copyright (c) 2022 - 2023 SUSE LINUX GmbH, Nuernberg, Germany.
 #
