@@ -29,7 +29,7 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/davidcassany/updateinfo-parser/pkg/types"
+	"github.com/rancher/elemental-channels/updatesparser/pkg/types"
 )
 
 const updateToken = "update"

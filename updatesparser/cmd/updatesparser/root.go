@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/davidcassany/updateinfo-parser/pkg/parser"
+	"github.com/rancher/elemental-channels/updatesparser/pkg/parser"
 	"github.com/spf13/cobra"
 )
 
