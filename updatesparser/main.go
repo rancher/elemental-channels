@@ -1,6 +1,6 @@
 package main
 
-import "github.com/davidcassany/updateinfo-parser/cmd/updatesparser"
+import "github.com/rancher/elemental-channels/updatesparser/cmd/updatesparser"
 
 func main() {
 	updatesparser.Execute()
