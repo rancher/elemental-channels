@@ -73,4 +73,4 @@ The semi automated process to generate and update channels including chanegelogs
 
 1. Within the current repository the `.refresh_channels.sh` script is used in GHA or manually to recreate the channel .json files and the \*.packages.tar files. GHA creates automatic PRs, merging them is a manual process.
 2. In [rancher/elemental-obs](https://github.com/rancher/elemental-obs) GHA there is job to keep track of latest changes in this repository and update `elemental-channel-image` OBS package accordingly. Creates automatic PRs, merging them is a manual process.
-3. To include updatesinfo.xml files in OBS a manual process is required. Call the `update.sh` script on a locak checkout with the appropriate product URL, this will download the updatesinfo.xml files which can then be committed as part of the sources.
+3. To include updatesinfo.xml files in OBS a manual process is required. Call the `update.sh` script on a local checkout with the appropriate product URL, this will download the updatesinfo.xml files which can then be committed as part of the sources.
