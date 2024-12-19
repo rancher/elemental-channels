@@ -1,6 +1,36 @@
 [
     {
         "metadata": {
+            "name": "kvm-v2.2.0-3.18-os"
+        },
+        "spec": {
+            "version": "v2.2.0-3.18",
+            "type": "container",
+            "metadata": {
+                "upgradeImage": "registry.suse.com/suse/sl-micro/6.1/kvm-os-container:2.2.0-3.18",
+                "displayName": "SL Micro KVM 6.1 OS",
+                "platforms": ["linux/x86_64","linux/aarch64"],
+                "created": 1733493227
+            }
+        }
+    },
+    {
+        "metadata": {
+            "name": "kvm-v2.2.0-3.16-os"
+        },
+        "spec": {
+            "version": "v2.2.0-3.16",
+            "type": "container",
+            "metadata": {
+                "upgradeImage": "registry.suse.com/suse/sl-micro/6.1/kvm-os-container:2.2.0-3.16",
+                "displayName": "SL Micro KVM 6.1 OS",
+                "platforms": ["linux/x86_64","linux/aarch64"],
+                "created": 1733307603
+            }
+        }
+    },
+    {
+        "metadata": {
             "name": "kvm-v2.2.0-3.15-os"
         },
         "spec": {
@@ -16,31 +46,16 @@
     },
     {
         "metadata": {
-            "name": "kvm-v2.2.0-3.12-os"
+            "name": "kvm-v2.2.0-3.16-iso"
         },
         "spec": {
-            "version": "v2.2.0-3.12",
-            "type": "container",
+            "version": "v2.2.0-3.16",
+            "type": "iso",
             "metadata": {
-                "upgradeImage": "registry.suse.com/suse/sl-micro/6.1/kvm-os-container:2.2.0-3.12",
-                "displayName": "SL Micro KVM 6.1 OS",
+                "uri": "registry.suse.com/suse/sl-micro/6.1/kvm-iso-image:2.2.0-3.16",
+                "displayName": "SL Micro KVM 6.1 ISO",
                 "platforms": ["linux/x86_64","linux/aarch64"],
-                "created": 1732636264
-            }
-        }
-    },
-    {
-        "metadata": {
-            "name": "kvm-v2.2.0-3.11-os"
-        },
-        "spec": {
-            "version": "v2.2.0-3.11",
-            "type": "container",
-            "metadata": {
-                "upgradeImage": "registry.suse.com/suse/sl-micro/6.1/kvm-os-container:2.2.0-3.11",
-                "displayName": "SL Micro KVM 6.1 OS",
-                "platforms": ["linux/x86_64","linux/aarch64"],
-                "created": 1731339615
+                "created": 1733308001
             }
         }
     },
@@ -71,21 +86,6 @@
                 "displayName": "SL Micro KVM 6.1 ISO",
                 "platforms": ["linux/x86_64","linux/aarch64"],
                 "created": 1730283049
-            }
-        }
-    },
-    {
-        "metadata": {
-            "name": "kvm-v2.2.0-3.6-iso"
-        },
-        "spec": {
-            "version": "v2.2.0-3.6",
-            "type": "iso",
-            "metadata": {
-                "uri": "registry.suse.com/suse/sl-micro/6.1/kvm-iso-image:2.2.0-3.6",
-                "displayName": "SL Micro KVM 6.1 ISO",
-                "platforms": ["linux/x86_64","linux/aarch64"],
-                "created": 1730116199
             }
         }
     }
