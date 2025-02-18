@@ -5,7 +5,7 @@
 
 ARG SLMICRO_VERSION
 
-FROM suse/sl-micro/6.1/toolbox:latest as toolbox
+FROM suse/sl-micro/6.0/toolbox:latest as toolbox
 
 # Prepare a busybox base
 RUN mkdir -p /busybox && rpm --initdb --root /busybox
