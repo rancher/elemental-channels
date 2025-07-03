@@ -10,8 +10,6 @@ on:
         - 'main'
         - 'v1.6'
         - 'v1.7'
-  schedule:
-    - cron: '0 0 * * *'
 
 jobs:
   set-matrix:
