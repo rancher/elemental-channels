@@ -1,91 +1,91 @@
 [
     {
         "metadata": {
-            "name": "kvm-v2.2.0-3.15-os"
+            "name": "kvm-v2.2.0-4.57-os"
         },
         "spec": {
-            "version": "v2.2.0-3.15",
+            "version": "v2.2.0-4.57",
             "type": "container",
             "metadata": {
-                "upgradeImage": "registry.suse.com/suse/sl-micro/6.1/kvm-os-container:2.2.0-3.15",
+                "upgradeImage": "registry.suse.com/suse/sl-micro/6.1/kvm-os-container:2.2.0-4.57",
                 "displayName": "SL Micro KVM 6.1 OS",
                 "platforms": ["linux/x86_64","linux/aarch64"],
-                "created": 1732723835
+                "created": 1751374499
             }
         }
     },
     {
         "metadata": {
-            "name": "kvm-v2.2.0-3.12-os"
+            "name": "kvm-v2.2.0-4.55-os"
         },
         "spec": {
-            "version": "v2.2.0-3.12",
+            "version": "v2.2.0-4.55",
             "type": "container",
             "metadata": {
-                "upgradeImage": "registry.suse.com/suse/sl-micro/6.1/kvm-os-container:2.2.0-3.12",
+                "upgradeImage": "registry.suse.com/suse/sl-micro/6.1/kvm-os-container:2.2.0-4.55",
                 "displayName": "SL Micro KVM 6.1 OS",
                 "platforms": ["linux/x86_64","linux/aarch64"],
-                "created": 1732636264
+                "created": 1751273295
             }
         }
     },
     {
         "metadata": {
-            "name": "kvm-v2.2.0-3.11-os"
+            "name": "kvm-v2.2.0-4.54-os"
         },
         "spec": {
-            "version": "v2.2.0-3.11",
+            "version": "v2.2.0-4.54",
             "type": "container",
             "metadata": {
-                "upgradeImage": "registry.suse.com/suse/sl-micro/6.1/kvm-os-container:2.2.0-3.11",
+                "upgradeImage": "registry.suse.com/suse/sl-micro/6.1/kvm-os-container:2.2.0-4.54",
                 "displayName": "SL Micro KVM 6.1 OS",
                 "platforms": ["linux/x86_64","linux/aarch64"],
-                "created": 1731339615
+                "created": 1750687070
             }
         }
     },
     {
         "metadata": {
-            "name": "kvm-v2.2.0-3.9-iso"
+            "name": "kvm-v2.2.0-4.62-iso"
         },
         "spec": {
-            "version": "v2.2.0-3.9",
+            "version": "v2.2.0-4.62",
             "type": "iso",
             "metadata": {
-                "uri": "registry.suse.com/suse/sl-micro/6.1/kvm-iso-image:2.2.0-3.9",
+                "uri": "registry.suse.com/suse/sl-micro/6.1/kvm-iso-image:2.2.0-4.62",
                 "displayName": "SL Micro KVM 6.1 ISO",
                 "platforms": ["linux/x86_64","linux/aarch64"],
-                "created": 1730920378
+                "created": 1751273682
             }
         }
     },
     {
         "metadata": {
-            "name": "kvm-v2.2.0-3.7-iso"
+            "name": "kvm-v2.2.0-4.61-iso"
         },
         "spec": {
-            "version": "v2.2.0-3.7",
+            "version": "v2.2.0-4.61",
             "type": "iso",
             "metadata": {
-                "uri": "registry.suse.com/suse/sl-micro/6.1/kvm-iso-image:2.2.0-3.7",
+                "uri": "registry.suse.com/suse/sl-micro/6.1/kvm-iso-image:2.2.0-4.61",
                 "displayName": "SL Micro KVM 6.1 ISO",
                 "platforms": ["linux/x86_64","linux/aarch64"],
-                "created": 1730283049
+                "created": 1750839960
             }
         }
     },
     {
         "metadata": {
-            "name": "kvm-v2.2.0-3.6-iso"
+            "name": "kvm-v2.2.0-4.60-iso"
         },
         "spec": {
-            "version": "v2.2.0-3.6",
+            "version": "v2.2.0-4.60",
             "type": "iso",
             "metadata": {
-                "uri": "registry.suse.com/suse/sl-micro/6.1/kvm-iso-image:2.2.0-3.6",
+                "uri": "registry.suse.com/suse/sl-micro/6.1/kvm-iso-image:2.2.0-4.60",
                 "displayName": "SL Micro KVM 6.1 ISO",
                 "platforms": ["linux/x86_64","linux/aarch64"],
-                "created": 1730116199
+                "created": 1750687599
             }
         }
     }
