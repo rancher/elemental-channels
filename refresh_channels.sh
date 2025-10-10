@@ -166,11 +166,6 @@ function process_repo() {
             local intermediate_entry="{\"uri\":\"$image_uri\",\"created\":\"$image_creation_date\",\"version\":\"$version\",\"managedOSVersionName\":\"$managed_os_version_name\",\"displayName\":\"$display_name\",\"platforms\":$platforms}"
             echo "Intermediate: $intermediate_entry"
             local intermediate_list=("${intermediate_list[@]}" "$intermediate_entry")
-	    if [[ "${repo_type}" ==  "os" ]]; then
-                podman pull "${image_uri}"
-                podman run --rm "${image_uri}" rpm -qa --qf "%{NAME}|%{EPOCH}|%{VERSION}|%{RELEASE}|%{ARCH}|%{DISTURL}|%{LICENSE}\n" | sort > "channels/${managed_os_version_name}.packages"
-		podman rmi "${image_uri}"
-	    fi
 
             img_count=$((img_count + 1))
         done
