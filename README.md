@@ -16,7 +16,7 @@ This repository automates and facilitates the creation of the officially distrib
 The [config.yaml](./config.yaml) can be updated using the following structure:
 
 ```yaml
-watches: 
+watches:
     # A flavor for the Base OS being watched. Can be "" for unflavored images.
     # This will be used as a prefix to distinguish same versions of different flavors.
   - flavor: "my-flavor"
@@ -34,6 +34,8 @@ watches:
     # The minimum version to start listing the channel. Usefull to skip any
     # pre GM build that eventually got released to the registry during release preparation.
     minVersion: 2.2.0
+    # How many images to add per type on each refresh run
+    append: 1
 ```
 
 ## Usage
