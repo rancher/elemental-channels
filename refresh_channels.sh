@@ -35,7 +35,7 @@ function is_higher_version() {
     higher_ver=$(printf '%s\n' "${versionA}" "${versionB}" | sort -rV | head -n1)
     [ "${higher_ver}" == "${versionA}" ] && return 0
     return 1
-} 
+}
 
 # Prefixes the ManagedOSVersion name with flavor value, if any
 function format_managed_os_version_name() {
@@ -145,15 +145,15 @@ function process_repo() {
         local intermediate_list=()
         local img_count=0
         for version in $(list_versions_matching_minor "${repo}" "${minor_version}"); do
-	    # Ignore from this version and on, does not match the minimum criteria
+            # Ignore from this version and on, does not match the minimum criteria
             is_higher_version "${min_version}" "${version}" && break
 
-	    # Limit the mount of images listed
-	    [ "${img_count}" -ge "${limit}" ] && break
+            # Limit the mount of images listed
+            [ "${img_count}" -ge "${limit}" ] && break
 
-	    local image_uri="${repo}:${version}"
+            local image_uri="${repo}:${version}"
             local image_creation_date=($(skopeo inspect docker://$image_uri | jq '.Created' | sed 's/"//g'))
-	    local raw_inspect_output=$(skopeo inspect --raw "docker://${image_uri}")
+            local raw_inspect_output=$(skopeo inspect --raw "docker://${image_uri}")
             # If there is no list of platforms, assume only the one that runs this script is available.
             local platforms="[\"amd64\"]"
             if echo "$raw_inspect_output" | jq '.manifests | length > 0' | grep "true" > /dev/null; then
@@ -180,6 +180,31 @@ function process_repo() {
     done
 }
 
+# Merges new entries to the existing json. Only new ones are included and removes old entries to not exceed the limit
+function merge_repo() {
+    local file=$1
+    local tmpfile=$2
+    local container_count
+    local iso_count
+    local drop
+
+    jq --argjson new "$(cat ${tmpfile})" '($new - .) + .' "${file}" > "${tmpfile}"
+    container_count=$(jq '[ .[] | select(.spec.type == "container") ] | length' "${tmpfile}")
+    iso_count=$(jq '[ .[] | select(.spec.type == "container") ] | length' "${tmpfile}")
+    if [ "${iso_count}" -gt "${limit}" ]; then
+        drop=$((${iso_count} - ${limit}))
+        jq --argjson drop "${drop}" '. - ([ .[] | select(.spec.type == "iso") ] | .[- $drop :])' "${tmpfile}" > "${tmpfile}.2nd"
+        mv "${tmpfile}.2nd" "${tmpfile}"
+    fi
+
+    if [ "${container_count}" -gt "${limit}" ]; then
+        drop=$((${container_count} - ${limit}))
+        jq --argjson drop "${drop}" '. - ([ .[] | select(.spec.type == "container") ] | .[- $drop :])' "${tmpfile}" > "${tmpfile}.2nd"
+        mv "${tmpfile}.2nd" "${tmpfile}"
+    fi
+    mv "${tmpfile}" "${file}"
+}
+
 
 # The list of repositories to watch
 watches=$(yq e -o=j -I=0 '.watches[]' config.yaml)
@@ -192,6 +217,7 @@ while IFS=\= read watch; do
     display_name=$(echo "$watch" | yq e '.displayName')
     os_repo=$(echo "$watch" | yq e '.osRepo')
     iso_repo=$(echo "$watch" | yq e '.isoRepo')
+    append=$(echo "$watch" | yq e '.append')
     limit=$(echo "$watch" | yq e '.limit')
     # Allow all versions if min_version is not set
     min_version=$(echo "$watch" | yq e -e '.minVersion' 2> /dev/null) || min_version="0.0.0"
@@ -199,21 +225,24 @@ while IFS=\= read watch; do
     # Start writing the channel file by opening a JSON array
     file="channels/$file_name.json"
     echo "Creating $file_name"
-    echo "[" > $file
+    echo "[" > "${file}.tmp"
 
     # Process OS container tags
-    process_repo "$os_repo" "os" "$file" "$limit" "$flavor" "$display_name" "${min_version}"
+    process_repo "$os_repo" "os" "${file}.tmp" "$append" "$flavor" "$display_name" "${min_version}"
 
     # Process ISO container tags (if applicable)
     if [ "$iso_repo" != "N/A" ]; then
-        process_repo "$iso_repo" "iso" "$file" "$limit" "$flavor" "$display_name" "${min_version}"
+        process_repo "$iso_repo" "iso" "${file}.tmp" "$append" "$flavor" "$display_name" "${min_version}"
     fi
 
     # Delete trailing ',' from array. (technically last written char on the file)
-    sed -i '$ s/.$//' $file
+    sed -i '$ s/.$//' "${file}.tmp"
 
     # Close the JSON Array
-    echo "]" >> $file
+    echo "]" >> "${file}.tmp"
+
+    # Merges the new *.tmp file with the already existing channel
+    merge_repo "${file}" "${file}.tmp"
 
     # Validate the JSON file
     cat $file | jq empty
