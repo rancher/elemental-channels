@@ -10,6 +10,7 @@ on:
         - 'main'
         - 'v1.6'
         - 'v1.7'
+        - 'v1.8'
 
 jobs:
   set-matrix:
@@ -21,7 +22,7 @@ jobs:
       id: branches
       run: |
         if [ "${{ github.event_name }}" != 'workflow_dispatch' ]; then
-          echo "branches=['main', 'v1.6', 'v1.7']" >> $GITHUB_OUTPUT
+          echo "branches=['main', 'v1.6', 'v1.7', 'v1.8']" >> $GITHUB_OUTPUT
         else
           echo "branches=['${{ inputs.target_branch }}']" >> $GITHUB_OUTPUT
         fi
