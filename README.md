@@ -34,6 +34,8 @@ watches:
     # The minimum version to start listing the channel. Usefull to skip any
     # pre GM build that eventually got released to the registry during release preparation.
     minVersion: 2.2.0
+    # How many images to add per type on each refresh run
+    append: 1
 ```
 
 ## Usage
