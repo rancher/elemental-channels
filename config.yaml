@@ -5,6 +5,7 @@ watches:
     osRepo: registry.suse.com/suse/sl-micro/6.1/baremetal-os-container
     isoRepo: registry.suse.com/suse/sl-micro/6.1/baremetal-iso-image
     limit: 3
+    append: 1
     minVersion: "2.2.0"
   - flavor: "kvm"
     fileName: "sl-micro-61-kvm"
@@ -12,6 +13,7 @@ watches:
     osRepo: registry.suse.com/suse/sl-micro/6.1/kvm-os-container
     isoRepo: registry.suse.com/suse/sl-micro/6.1/kvm-iso-image
     limit: 3
+    append: 1
     minVersion: "2.2.0"
   - flavor: "base"
     fileName: "sl-micro-61-base"
@@ -19,6 +21,7 @@ watches:
     osRepo: registry.suse.com/suse/sl-micro/6.1/base-os-container
     isoRepo: registry.suse.com/suse/sl-micro/6.1/base-iso-image
     limit: 3
+    append: 1
     minVersion: "2.2.0"
   - flavor: "rt"
     fileName: "sl-micro-61-rt"
@@ -26,4 +29,5 @@ watches:
     osRepo: registry.suse.com/suse/sl-micro/6.1/rt-os-container
     isoRepo: registry.suse.com/suse/sl-micro/6.1/rt-iso-image
     limit: 3
+    append: 1
     minVersion: "2.2.0"
