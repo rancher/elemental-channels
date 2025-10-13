@@ -9,8 +9,7 @@ on:
         options:
         - 'main'
         - 'v1.6'
-  schedule:
-    - cron: '0 0 * * *'
+        - 'v1.7'
 
 jobs:
   set-matrix:
@@ -22,7 +21,7 @@ jobs:
       id: branches
       run: |
         if [ "${{ github.event_name }}" != 'workflow_dispatch' ]; then
-          echo "branches=['main', 'v1.6']" >> $GITHUB_OUTPUT
+          echo "branches=['main', 'v1.6', 'v1.7']" >> $GITHUB_OUTPUT
         else
           echo "branches=['${{ inputs.target_branch }}']" >> $GITHUB_OUTPUT
         fi
