@@ -1,4 +1,4 @@
-watches: 
+watches:
   - flavor: "baremetal"
     fileName: "sl-micro-61-baremetal"
     displayName: "SL Micro Baremetal 6.1"
