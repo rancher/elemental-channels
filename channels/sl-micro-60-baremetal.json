@@ -1,86 +1,104 @@
 [
-    {
-        "metadata": {
-            "name": "baremetal-v2.1.3-6.47-os"
-        },
-        "spec": {
-            "version": "v2.1.3-6.47",
-            "type": "container",
-            "metadata": {
-                "upgradeImage": "registry.suse.com/suse/sl-micro/6.0/baremetal-os-container:2.1.3-6.47",
-                "displayName": "SL Micro 6.0 OS",
-                "platforms": ["linux/x86_64","linux/aarch64"]
-            }
-        }
+  {
+    "metadata": {
+      "name": "baremetal-v2.1.3-6.119-os"
     },
-    {
-        "metadata": {
-            "name": "baremetal-v2.1.3-6.46-os"
-        },
-        "spec": {
-            "version": "v2.1.3-6.46",
-            "type": "container",
-            "metadata": {
-                "upgradeImage": "registry.suse.com/suse/sl-micro/6.0/baremetal-os-container:2.1.3-6.46",
-                "displayName": "SL Micro 6.0 OS",
-                "platforms": ["linux/x86_64","linux/aarch64"]
-            }
-        }
-    },
-    {
-        "metadata": {
-            "name": "baremetal-v2.1.3-6.41-os"
-        },
-        "spec": {
-            "version": "v2.1.3-6.41",
-            "type": "container",
-            "metadata": {
-                "upgradeImage": "registry.suse.com/suse/sl-micro/6.0/baremetal-os-container:2.1.3-6.41",
-                "displayName": "SL Micro 6.0 OS",
-                "platforms": ["linux/x86_64","linux/aarch64"]
-            }
-        }
-    },
-    {
-        "metadata": {
-            "name": "baremetal-v2.1.4-6.17-iso"
-        },
-        "spec": {
-            "version": "v2.1.4-6.17",
-            "type": "iso",
-            "metadata": {
-                "uri": "registry.suse.com/suse/sl-micro/6.0/baremetal-iso-image:2.1.4-6.17",
-                "displayName": "SL Micro 6.0 ISO",
-                "platforms": ["linux/x86_64","linux/aarch64"]
-            }
-        }
-    },
-    {
-        "metadata": {
-            "name": "baremetal-v2.1.4-6.16-iso"
-        },
-        "spec": {
-            "version": "v2.1.4-6.16",
-            "type": "iso",
-            "metadata": {
-                "uri": "registry.suse.com/suse/sl-micro/6.0/baremetal-iso-image:2.1.4-6.16",
-                "displayName": "SL Micro 6.0 ISO",
-                "platforms": ["linux/x86_64","linux/aarch64"]
-            }
-        }
-    },
-    {
-        "metadata": {
-            "name": "baremetal-v2.1.4-6.13-iso"
-        },
-        "spec": {
-            "version": "v2.1.4-6.13",
-            "type": "iso",
-            "metadata": {
-                "uri": "registry.suse.com/suse/sl-micro/6.0/baremetal-iso-image:2.1.4-6.13",
-                "displayName": "SL Micro 6.0 ISO",
-                "platforms": ["linux/x86_64","linux/aarch64"]
-            }
-        }
+    "spec": {
+      "version": "v2.1.3-6.119",
+      "type": "container",
+      "metadata": {
+        "upgradeImage": "registry.suse.com/suse/sl-micro/6.0/baremetal-os-container:2.1.3-6.119",
+        "displayName": "SL Micro 6.0 OS",
+        "platforms": [
+          "linux/x86_64",
+          "linux/aarch64"
+        ]
+      }
     }
+  },
+  {
+    "metadata": {
+      "name": "baremetal-v2.1.4-6.114-iso"
+    },
+    "spec": {
+      "version": "v2.1.4-6.114",
+      "type": "iso",
+      "metadata": {
+        "uri": "registry.suse.com/suse/sl-micro/6.0/baremetal-iso-image:2.1.4-6.114",
+        "displayName": "SL Micro 6.0 ISO",
+        "platforms": [
+          "linux/x86_64",
+          "linux/aarch64"
+        ]
+      }
+    }
+  },
+  {
+    "metadata": {
+      "name": "baremetal-v2.1.3-6.47-os"
+    },
+    "spec": {
+      "version": "v2.1.3-6.47",
+      "type": "container",
+      "metadata": {
+        "upgradeImage": "registry.suse.com/suse/sl-micro/6.0/baremetal-os-container:2.1.3-6.47",
+        "displayName": "SL Micro 6.0 OS",
+        "platforms": [
+          "linux/x86_64",
+          "linux/aarch64"
+        ]
+      }
+    }
+  },
+  {
+    "metadata": {
+      "name": "baremetal-v2.1.3-6.46-os"
+    },
+    "spec": {
+      "version": "v2.1.3-6.46",
+      "type": "container",
+      "metadata": {
+        "upgradeImage": "registry.suse.com/suse/sl-micro/6.0/baremetal-os-container:2.1.3-6.46",
+        "displayName": "SL Micro 6.0 OS",
+        "platforms": [
+          "linux/x86_64",
+          "linux/aarch64"
+        ]
+      }
+    }
+  },
+  {
+    "metadata": {
+      "name": "baremetal-v2.1.4-6.17-iso"
+    },
+    "spec": {
+      "version": "v2.1.4-6.17",
+      "type": "iso",
+      "metadata": {
+        "uri": "registry.suse.com/suse/sl-micro/6.0/baremetal-iso-image:2.1.4-6.17",
+        "displayName": "SL Micro 6.0 ISO",
+        "platforms": [
+          "linux/x86_64",
+          "linux/aarch64"
+        ]
+      }
+    }
+  },
+  {
+    "metadata": {
+      "name": "baremetal-v2.1.4-6.16-iso"
+    },
+    "spec": {
+      "version": "v2.1.4-6.16",
+      "type": "iso",
+      "metadata": {
+        "uri": "registry.suse.com/suse/sl-micro/6.0/baremetal-iso-image:2.1.4-6.16",
+        "displayName": "SL Micro 6.0 ISO",
+        "platforms": [
+          "linux/x86_64",
+          "linux/aarch64"
+        ]
+      }
+    }
+  }
 ]
