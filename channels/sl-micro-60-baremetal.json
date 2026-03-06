@@ -1,6 +1,40 @@
 [
   {
     "metadata": {
+      "name": "baremetal-v2.1.3-6.132-os"
+    },
+    "spec": {
+      "version": "v2.1.3-6.132",
+      "type": "container",
+      "metadata": {
+        "upgradeImage": "registry.suse.com/suse/sl-micro/6.0/baremetal-os-container:2.1.3-6.132",
+        "displayName": "SL Micro 6.0 OS",
+        "platforms": [
+          "linux/x86_64",
+          "linux/aarch64"
+        ]
+      }
+    }
+  },
+  {
+    "metadata": {
+      "name": "baremetal-v2.1.4-6.127-iso"
+    },
+    "spec": {
+      "version": "v2.1.4-6.127",
+      "type": "iso",
+      "metadata": {
+        "uri": "registry.suse.com/suse/sl-micro/6.0/baremetal-iso-image:2.1.4-6.127",
+        "displayName": "SL Micro 6.0 ISO",
+        "platforms": [
+          "linux/x86_64",
+          "linux/aarch64"
+        ]
+      }
+    }
+  },
+  {
+    "metadata": {
       "name": "baremetal-v2.1.3-6.119-os"
     },
     "spec": {
@@ -52,23 +86,6 @@
   },
   {
     "metadata": {
-      "name": "baremetal-v2.1.3-6.46-os"
-    },
-    "spec": {
-      "version": "v2.1.3-6.46",
-      "type": "container",
-      "metadata": {
-        "upgradeImage": "registry.suse.com/suse/sl-micro/6.0/baremetal-os-container:2.1.3-6.46",
-        "displayName": "SL Micro 6.0 OS",
-        "platforms": [
-          "linux/x86_64",
-          "linux/aarch64"
-        ]
-      }
-    }
-  },
-  {
-    "metadata": {
       "name": "baremetal-v2.1.4-6.17-iso"
     },
     "spec": {
@@ -76,23 +93,6 @@
       "type": "iso",
       "metadata": {
         "uri": "registry.suse.com/suse/sl-micro/6.0/baremetal-iso-image:2.1.4-6.17",
-        "displayName": "SL Micro 6.0 ISO",
-        "platforms": [
-          "linux/x86_64",
-          "linux/aarch64"
-        ]
-      }
-    }
-  },
-  {
-    "metadata": {
-      "name": "baremetal-v2.1.4-6.16-iso"
-    },
-    "spec": {
-      "version": "v2.1.4-6.16",
-      "type": "iso",
-      "metadata": {
-        "uri": "registry.suse.com/suse/sl-micro/6.0/baremetal-iso-image:2.1.4-6.16",
         "displayName": "SL Micro 6.0 ISO",
         "platforms": [
           "linux/x86_64",
